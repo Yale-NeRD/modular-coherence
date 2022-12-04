@@ -5,7 +5,7 @@ import textwrap
 
 
 #USER DEFINED
-convert_requestor = False #if True, then converts requestor, else converts invalidator to c source code 
+convert_requestor = True #if True, then converts requestor, else converts invalidator to c source code 
 
 if convert_requestor:
 	requestor_main_method_name = "get_cache_line_entry"
@@ -111,8 +111,6 @@ def write_function_definition_and_docstring(method, f, c_src_lines = None):
 				arg_type = "char*" 
 			parameter_string += str(arg_type) + " " + arg
 
-	print("Here", arg_types)
-
 	return_type = arg_types["return"].__name__
 	if return_type == "str":
 		return_type = "char*"
@@ -130,7 +128,9 @@ def write_function_definition_and_docstring(method, f, c_src_lines = None):
 
 function_names = []
 with open(output_file_name, "a") as f:
-	for name, method in converted_class.__dict__.items():
+	# print()
+	# print(inspect.getmembers(converted_class, inspect.ismethod))
+	for name, method in inspect.getmembers(converted_class, predicate=inspect.isfunction):
 	    if callable(method):
 	        method_name = method.__name__
 	        if method_name == "__init__" or method_name == requestor_main_method_name:

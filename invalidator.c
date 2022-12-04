@@ -1,3 +1,10 @@
+int flush_cache_line_entry_to_network(int memory_addr){
+/* 	params:
+	:memory_addr - address of block that is being flushed */
+
+	INSERT CODE HERE
+}
+
 int get_stored_cache_line_mode(int memory_addr){
 /* 	gets mode (i.e. modified, shared, invalid) for a stored cache line entry; 
 	if cache line entry doesn't exist: return invalid)
@@ -7,13 +14,6 @@ int get_stored_cache_line_mode(int memory_addr){
 
 	return:
 	:mode: state/mode of the cache line being requested (i.e. M, O, E, S, I) */
-
-	INSERT CODE HERE
-}
-
-int flush_cache_line_entry_to_network(int memory_addr){
-/* 	params:
-	:memory_addr - address of block that is being flushed */
 
 	INSERT CODE HERE
 }
