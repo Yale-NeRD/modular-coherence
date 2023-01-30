@@ -2,7 +2,7 @@ import inspect
 import textwrap
 from invalidator_arch import invalidator_arch
 
-# ###STATE DEFINITIONS###
+###STATE DEFINITIONS###
 MODIFIED = 2
 SHARED = 1
 INVALID = 0
@@ -40,8 +40,3 @@ class invalidator(invalidator_arch):
 		elif stored_cache_line_mode == SHARED and new_mode == INVALID:
 			self.update_cache_line_state(memory_addr, "mode", 0)
 		else:
-			return ERROR
-
-
-
-###DO NOT CHANGE BELOW THIS

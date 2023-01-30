@@ -6,6 +6,7 @@ INVALID = 0
 class requestor_arch(object):
 	def __init__(self):
 		pass
+
 	def get_data_from_cache_line(self, memory_addr: int) -> str:
 		'''
 		after knowing that the data exists, 

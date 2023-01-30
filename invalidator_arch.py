@@ -6,6 +6,7 @@ class invalidator_arch(object):
 	def get_stored_cache_line_mode(self, memory_addr:int) -> int:
 		'''
 		gets mode (i.e. modified, shared, invalid, etc.) for a stored cache line entry; 
+
 		if cache line entry doesn't exist: return invalid)
 
 		params:
@@ -32,7 +33,7 @@ class invalidator_arch(object):
 		Send cache line entry that is being invalidated to entry to network so that other cache controllers can access memory entry
 		'''
 
-	def update_cache_line_state(self, cache_line:int, mode:int, new_mode_value:int) -> int:
+	def update_cache_line_state(self, cache_line:int, state:int, new_value:int) -> int:
 		'''
 		update cache line to a new_state (generally after response from network)
 
@@ -41,8 +42,7 @@ class invalidator_arch(object):
 		:state - state that is being updated
 		:new_value - new value for state
 
+
 		
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
-			 -  the states that are encoded should match what's the bits of information that are in PTE
-			 - needs to simply update cache
 		'''
