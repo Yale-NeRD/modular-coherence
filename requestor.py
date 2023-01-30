@@ -2,7 +2,6 @@ import inspect
 import textwrap
 from requestor_arch import requestor_arch
 
-<<<<<<< HEAD
 #GLOBAL STATE DEFINTIONS
 MODIFIED = 2
 SHARED = 1 
@@ -15,9 +14,9 @@ class requestor(requestor_arch):
 
 		self.valid_requestor_mode_transitions = 
 		{
-		0: [1,2]
-		1: [1,2]
-		2: [2]
+			0: [1,2]
+			1: [1,2]
+			2: [2]
 		}
 		#keys are what is stored in the cache controller 
 		#values are correct transition states for the cache controller 
@@ -34,7 +33,7 @@ class requestor(requestor_arch):
 		'''
 
 		##commands that are always done##
-		self.initialize_cache_entry(memory_addr)
+		self.initialize_cache_line_entry(memory_addr)
 		stored_cache_line_mode = self.get_stored_cache_line_mode(memory_addr)
 		self.verify_state_transition_validity(stored_cache_line_mode, requested_mode)
 

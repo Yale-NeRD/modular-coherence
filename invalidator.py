@@ -27,7 +27,7 @@ class invalidator(invalidator_arch):
 		:new_mode - new permissions mode for the requested block
 
 		return:
-		TODO
+		NONE
 		'''
 		stored_cache_line_mode = self.get_stored_cache_line_mode(memory_addr)
 
@@ -40,3 +40,4 @@ class invalidator(invalidator_arch):
 		elif stored_cache_line_mode == SHARED and new_mode == INVALID:
 			self.update_cache_line_state(memory_addr, "mode", 0)
 		else:
+			return ERROR

@@ -18,6 +18,10 @@ class requestor_arch(object):
 		return:
 		:data (str): the actual data from the cache_line
 
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		1. find data for given cache line mode (this function is only called when controller doesn't already have data)
+		2. return the data to the process making the request
+
 		'''
 		pass
 
@@ -30,35 +34,35 @@ class requestor_arch(object):
 		:memory_addr -  memory address of requested cache line 
 
 		return:
-		:mode: state/mode of the cache line being requested (i.e. M, O, E, S, I)
+		:mode: state/mode of the cache line being requested (i.e. M, O, E, S, I) as int (defined in global states)
+
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		1. Ensure that address exists in memory
+		2. If it exists, return the mode associated with the requested cache line information 
 
 		'''
+
 		return mode
 
-		'''
-		expected semantics for architecture developer:
-			 - ensure that address exists in cache
-		'''
-
-	def initialize_cache_entry(self,memory_addr:int) -> int: #
+	def initialize_cache_line_entry(self,memory_addr:int) -> int: #
 		'''
 		prepares a cache_entry before a request is made. Specifically, if:
-			- If cache entry doesn't exist for address, prepare cache entry for it (i.e. evict block)
-			- If cache entry exists, return True
+			- If cache line entry doesn't exist for address, prepare cache entry for it (i.e. evict block) and return True 
+			- If cache line entry exists, return True
 			- other cases error out (return False)
 
 		params:
 		:memory_addr - memory address of data being requested
 
-		No return value
-		'''
 		return None
 
-		'''
-		expected semantics for architecture developer:
-			 - do same thing in description above 
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		Do as described in function description above
+
 		'''
 
+		return None
+		
 
 	def send_request_to_network(self,address:int, mode:int) -> int: #is_read can just be mode (eg. M, O, E, S,...)
 		'''
@@ -71,29 +75,32 @@ class requestor_arch(object):
 		
 		return:
 		: mode: mode of address being returned 
-		'''
-		pass
-		# return response #from network  
+
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		1. send cache line request for new mode (if needed) to the directory 
+		2. Wait for response from directory before returning, which is packet that has 
+		information about data and new_mode to change local state to 
+		3. add data (if received) to local cache controller 
 
 		'''
-		expected semantics for architecture developer:
-			 - send request to network (i.e. the network RDMA)
-		'''
+
+		return True
 
 
-	def update_cache_state(self, memory_addr:int, state:str, new_value:int) -> int:
+
+	def update_cache_state(self, memory_addr:int, mode:str, new_mode_value:int) -> int:
 		'''
 		update cache line to a new_state (generally after response from network)
 
 		params:
 		:memory_addr - address of requested block of data 
-		:state - state that is being updated
-		:new_value - new value for state
-		'''
+		:mode - state/mode that is being updated
+		:new_mode_value - new value for given mode param
 
-		'''
-		expected semantics for architecture developer:
-			- The code needs to figure out the cache entry for the memory_addr
-			- Then for the given state, must update the value (i.e. the mode may change from S --> M or I-->S)
+		return: boolean on successful update of cache line state
+
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		1. find the cache line entry for the given memory_addr
+		2. For the given mode (i.e. cache line state), must update the value to new_value (i.e. the mode may change from S --> M or I-->S)
 		'''
 		pass

@@ -15,11 +15,10 @@ class invalidator_arch(object):
 		return:
 		:mode: state/mode of the cache line being requested (i.e. M, O, E, S, I)
 
-		'''
-		# return mode
 
-		'''
-		expected semantics for architecture developer:
+		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		Ensure that address exists in memory
+		If it exists, determine the cache_line mode associated with it 
 			 - ensure that address exists in cache
 		'''
 
@@ -33,16 +32,15 @@ class invalidator_arch(object):
 		Send cache line entry that is being invalidated to entry to network so that other cache controllers can access memory entry
 		'''
 
-	def update_cache_line_state(self, cache_line:int, state:int, new_value:int) -> int:
+	def update_cache_line_state(self, cache_line:int, mode:int, new_mode_value:int) -> int:
 		'''
 		update cache line to a new_state (generally after response from network)
 
 		params:
 		:cache_line - cache entry for page
-		:state - state that is being updated
-		:new_value - new value for state
-
-
+		:mode - state/mode that is being updated
+		:new_mode_value - new value for that mode/state
 		
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
+		based on a given state/mode, update the value in the cache controller for that given mode (i.e. like updating a table) 
 		'''
