@@ -17,10 +17,10 @@ class invalidator_arch(object):
 
 
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
-		Ensure that address exists in memory
-		If it exists, determine the cache_line mode associated with it 
-			 - ensure that address exists in cache
+		1. Ensure that address exists in memory
+		2. If it exists, return the mode associated with the requested cache line information 
 		'''
+		pass
 
 
 	def flush_cache_line_entry_to_network(self, memory_addr:int) -> int:
@@ -31,6 +31,7 @@ class invalidator_arch(object):
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
 		Send cache line entry that is being invalidated to entry to network so that other cache controllers can access memory entry
 		'''
+		pass
 
 	def update_cache_line_state(self, cache_line:int, mode:int, new_mode_value:int) -> int:
 		'''
@@ -44,3 +45,4 @@ class invalidator_arch(object):
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
 		based on a given state/mode, update the value in the cache controller for that given mode (i.e. like updating a table) 
 		'''
+		pass
