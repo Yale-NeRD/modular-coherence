@@ -31,7 +31,6 @@ class directory(object):
 		'''
 
 
-
 		for state in self.cache_line_states:
 			self.match_action_table[state] = {}
 			for matched_state in self.cache_line_states:

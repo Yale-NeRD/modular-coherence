@@ -38,15 +38,15 @@ from directory import directory
 
 '''
 
-# B = invalidator("B")
-# D = directory()
-# A = requestor(directory=D)
+B = invalidator("B")
+D = directory()
+A = requestor(directory=D)
 
 
-# D.global_cache_state[0] = {"data":0, "mode": "modified", "sharers": [B]}
-# A.cache_state[0] = "invalid"
-# B.cache_state[0] = "modified"
-# A.get_cache_line_entry(0, "write")
+D.global_cache_state[0] = {"data":0, "mode": "modified", "sharers": [B]}
+A.cache_state[0] = "invalid"
+B.cache_state[0] = "modified"
+A.get_cache_line_entry(0, "write")
 
 
 #==========================================================================
@@ -84,14 +84,14 @@ from directory import directory
 
 '''
 
-B = invalidator("B")
-D = directory()
-A = requestor(directory=D)
+# B = invalidator("B")
+# D = directory()
+# A = requestor(directory=D)
 
 
-D.global_cache_state[0] = {"data":0, "mode": "modified", "sharers": [A]}
-A.cache_state[0] = "modified"
-# B.cache_state[0] = "modified"
-A.get_cache_line_entry(0, "read")
+# D.global_cache_state[0] = {"data":0, "mode": "modified", "sharers": [A]}
+# A.cache_state[0] = "modified"
+# # B.cache_state[0] = "modified"
+# A.get_cache_line_entry(0, "read")
 
 

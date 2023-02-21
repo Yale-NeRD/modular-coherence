@@ -30,10 +30,11 @@ class requestor(requestor_arch):
 		#key = memory_addr
 		#value = cache state/mode
 
-
 		self.directory = directory
 
 
+
+		#TODO: do i need to define state to allowed permission (i.e. S-> read, I--> none, M-->read,write)
 
 
 	def get_cache_line_entry(self, memory_addr:int, requested_mode:str) -> str:
@@ -55,13 +56,13 @@ class requestor(requestor_arch):
 				self.match_action_table[state][matched_state] = None
 
 
+		#TODO: use function pointers (split function name with arguments) instead of strings 
 		self.match_action_table["invalid"]["read"] = ["self.send_request_to_network(memory_addr, 'read')", 
 														"self.update_cache_state(memory_addr, 'mode', 'shared')"
 														]
 		self.match_action_table["invalid"]["write"] = ["self.send_request_to_network(memory_addr, 'write')", 
 														"self.update_cache_state(memory_addr, 'mode', 'modified')"
 														]
-
 
 		self.match_action_table["shared"]["read"] = ["ERROR"]
 		self.match_action_table["shared"]["write"] = ["self.send_request_to_network(memory_addr, 'write')", 
@@ -71,7 +72,6 @@ class requestor(requestor_arch):
 		self.match_action_table["modified"]["read"] = ["ERROR"]
 		self.match_action_table["modified"]["write"] = ["ERROR"]
 
-		# print(self.match_action_table)
 
 		cache_state = self.cache_state[memory_addr]
 		for item in self.match_action_table[cache_state][requested_mode]:
