@@ -4,7 +4,9 @@ from cache_state import *
 
 
 class directory(object):
-	def __init__(self):
+	def __init__(self,directory_arch):
+
+		self.directory_arch = directory_arch
 
 		self.cache_line_states = ["invalid", "shared", "modified"]
 

@@ -17,14 +17,6 @@ class requestor(object):
 			for matched_state in cache_line_states:
 				self.match_action_table[state][matched_state] = None
 
-		# self.number_of_states = 3 #n
-		# self.cache_line_states = ["invalid", "shared", "modified"]
-
-		# #make a table of size n x n states
-		# self.match_action_table = {}
-
-		# #key = memory_addr
-		# #value = cache state/mode
 
 		self.directory = directory
 

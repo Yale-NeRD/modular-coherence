@@ -31,9 +31,10 @@ class invalidator_arch(object):
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
 		Send cache line entry that is being invalidated to entry to network so that other cache controllers can access memory entry
 		'''
+		print(f"invalidator_flush_cache_line_entry_to_network({memory_addr})")
 		pass
 
-	def update_cache_line_state(self, cache_line:int, mode:int, new_mode_value:int) -> int:
+	def update_cache_line_state(self, memory_addr:int, mode:str, new_mode_value:int) -> int:
 		'''
 		update cache line to a new_state (generally after response from network)
 
@@ -45,4 +46,5 @@ class invalidator_arch(object):
 		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
 		based on a given state/mode, update the value in the cache controller for that given mode (i.e. like updating a table) 
 		'''
+		print(f"invalidator_update_cache_line_state({memory_addr},{mode},{new_mode_value})")
 		pass

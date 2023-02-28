@@ -5,24 +5,22 @@ from cache_state import *
 from invalidator import invalidator
 
 class invalidator_msi(invalidator):
-	def __init__(self, local_cache_state, name="a"):
-		super(invalidator_msi, self).__init__(name)
+	def __init__(self, invalidator_arch, local_cache_state, name="a"):
+		super(invalidator_msi, self).__init__(invalidator_arch, name)
 
 
 		self.local_cache_state = local_cache_state
 
 
-		print("invalidator match action table", self.match_action_table)
+		self.match_action_table[SHARED]["invalid"] = ["invalidator_arch.update_cache_line_state(self,memory_addr, 'mode', INVALID)"] 
+		self.match_action_table[SHARED]["shared"] = [] 
+		self.match_action_table[SHARED]["modified"] = []
 
-		self.match_action_table[SHARED]["invalid"] = ["self.update_cache_line_state(memory_addr, 'mode', 'invalid')"] #TODO figure out if I have to delete the data as well
-		self.match_action_table[SHARED]["shared"] = ["ERROR"] 
-		self.match_action_table[SHARED]["modified"] = ["ERROR"]
-
-		self.match_action_table[MODIFIED]["invalid"] = ["self.flush_cache_line_entry_to_network(memory_addr)", 
-														 "self.update_cache_line_state(memory_addr, 'mode', 'invalid')"]
-		self.match_action_table[MODIFIED]["shared"] = ["self.flush_cache_line_entry_to_network(memory_addr)", 
-														 "self.update_cache_line_state(memory_addr, 'mode', 'shared')"]
-		self.match_action_table[MODIFIED]["modified"] = ["ERROR"]
+		self.match_action_table[MODIFIED]["invalid"] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
+														 "invalidator_arch.update_cache_line_state(self, memory_addr, 'mode', INVALID)"]
+		self.match_action_table[MODIFIED]["shared"] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
+														 "invalidator_arch.update_cache_line_state(self,memory_addr, 'mode', SHARED)"]
+		self.match_action_table[MODIFIED]["modified"] = []
 
 	def invalidate_cache_line_entry(self, memory_addr:int, new_mode:int) -> int:
 		'''
@@ -39,10 +37,9 @@ class invalidator_msi(invalidator):
 		# print(local_state_state)
 		cache_state = self.local_cache_state[memory_addr]
 		for item in self.match_action_table[cache_state][new_mode]:
-			if item == "ERROR":
-				print(item)
-				break
-			print("invalidator_"+self.name+"_"+item)
+
+			# print("invalidator_"+self.name+"_"+item)
+			eval(item)
 
 		return 0
 

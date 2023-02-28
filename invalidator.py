@@ -3,9 +3,11 @@ import textwrap
 from invalidator_arch import invalidator_arch
 from cache_state import *
 
-class invalidator(invalidator_arch):
-	def __init__(self, name="a"):
+class invalidator(object):
+	def __init__(self, invalidator_arch, name="a"):
 		self.name = name
+
+		invalidator_arch = invalidator_arch
 
 		self.match_action_table = {}
 
@@ -29,7 +31,6 @@ class invalidator(invalidator_arch):
 		return:
 		NONE
 		'''
-
 
 
 		pass
