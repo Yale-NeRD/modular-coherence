@@ -86,7 +86,6 @@ class requestor_arch(object):
 		print(f"requestor_send_request_to_network({address},{mode})")
 		directory.collect_and_respond_requests(address, mode)
 		
-
 		return True
 
 

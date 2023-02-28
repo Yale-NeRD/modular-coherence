@@ -12,15 +12,15 @@ class invalidator_msi(invalidator):
 		self.local_cache_state = local_cache_state
 
 
-		self.match_action_table[SHARED]["invalid"] = ["invalidator_arch.update_cache_line_state(self,memory_addr, 'mode', INVALID)"] 
-		self.match_action_table[SHARED]["shared"] = [] 
-		self.match_action_table[SHARED]["modified"] = []
+		self.match_action_table[SHARED][INVALID] = ["invalidator_arch.update_cache_line_state(self,memory_addr, 'mode', INVALID)"] 
+		self.match_action_table[SHARED][SHARED] = [] 
+		self.match_action_table[SHARED][MODIFIED] = []
 
-		self.match_action_table[MODIFIED]["invalid"] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
+		self.match_action_table[MODIFIED][INVALID] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
 														 "invalidator_arch.update_cache_line_state(self, memory_addr, 'mode', INVALID)"]
-		self.match_action_table[MODIFIED]["shared"] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
+		self.match_action_table[MODIFIED][SHARED] = ["invalidator_arch.flush_cache_line_entry_to_network(self,memory_addr)", 
 														 "invalidator_arch.update_cache_line_state(self,memory_addr, 'mode', SHARED)"]
-		self.match_action_table[MODIFIED]["modified"] = []
+		self.match_action_table[MODIFIED][MODIFIED] = []
 
 	def invalidate_cache_line_entry(self, memory_addr:int, new_mode:int) -> int:
 		'''
@@ -34,11 +34,8 @@ class invalidator_msi(invalidator):
 		NONE
 		'''
 
-		# print(local_state_state)
 		cache_state = self.local_cache_state[memory_addr]
 		for item in self.match_action_table[cache_state][new_mode]:
-
-			# print("invalidator_"+self.name+"_"+item)
 			eval(item)
 
 		return 0

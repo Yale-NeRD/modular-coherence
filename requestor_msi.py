@@ -5,8 +5,6 @@ from requestor import requestor
 from cache_state import *
 
 
-
-
 class requestor_msi(requestor):
 	#cache entry states must be defined by cache coherence developer 
 	def __init__(self, requestor_arch, directory, local_cache_state):
@@ -14,15 +12,15 @@ class requestor_msi(requestor):
 
 
 		#TODO: use function pointers (split function name with arguments) instead of strings 
-		self.match_action_table[INVALID]["read"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'read')", 
+		self.match_action_table[INVALID]["read"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'getS')", 
 													"requestor_arch.update_cache_state(self, memory_addr, 'mode', SHARED)"
 														]
-		self.match_action_table[INVALID]["write"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'write')", 
+		self.match_action_table[INVALID]["write"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'getM')", 
 														"requestor_arch.update_cache_state(self,memory_addr, 'mode', MODIFIED)"
 														]
 
 		self.match_action_table[SHARED]["read"] = []
-		self.match_action_table[SHARED]["write"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'write')", 
+		self.match_action_table[SHARED]["write"] = ["requestor_arch.send_request_to_network(self, self.directory, memory_addr, 'getM')", 
 													  "requestor_arch.update_cache_state(self, memory_addr, 'mode', MODIFIED)"
 														]
 

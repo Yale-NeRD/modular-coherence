@@ -9,17 +9,15 @@ class directory_msi(directory):
 		super(directory_msi, self).__init__(directory_arch)
 
 
-		self.match_action_table[INVALID]["read"] = ["fetch_data_ext(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"]
-		self.match_action_table[INVALID]["write"] = ["fetch_data_ext(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
+		self.match_action_table[INVALID]["getS"] = ["fetch_data_ext(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"]
+		self.match_action_table[INVALID]["getM"] = ["fetch_data_ext(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
 
 
-		self.match_action_table[SHARED]["read"] = ["get_data(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"] 
+		self.match_action_table[SHARED]["getS"] = ["get_data(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"] 
+		self.match_action_table[SHARED]["getM"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode=INVALID)","get_data(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
 
-		
-		self.match_action_table[SHARED]["write"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode='invalid')","get_data(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
-
-		self.match_action_table[MODIFIED]["read"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode='shared')", "get_data(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"]
-		self.match_action_table[MODIFIED]["write"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode='invalid')", "get_data(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
+		self.match_action_table[MODIFIED]["getS"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode=SHARED)", "get_data(memory_addr)", "respond_to_requestor(memory_addr, data, shared)", "update_state()"]
+		self.match_action_table[MODIFIED]["getM"] = ["self.directory_arch.invalidate_sharers(sharers, memory_addr, new_mode=INVALID)", "get_data(memory_addr)", "respond_to_requestor(memory_addr, data, modified)", "update_state()"]
 
 
 	def collect_and_respond_requests(self, memory_addr:int, requested_mode:int) -> int:
