@@ -4,9 +4,13 @@ from requestor_arch import requestor_arch
 from cache_state import *
 
 
-class requestor(requestor_arch):
+class requestor(object):
 	#cache entry states must be defined by cache coherence developer 
-	def __init__(self, directory):
+	def __init__(self, requestor_arch,directory):
+
+		self.requestor_arch = requestor_arch
+
+		self.match_action_table = {}
 
 		for state in cache_line_states:
 			self.match_action_table[state] = {}

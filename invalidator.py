@@ -7,6 +7,7 @@ class invalidator(invalidator_arch):
 	def __init__(self, name="a"):
 		self.name = name
 
+		self.match_action_table = {}
 
 		for state in cache_line_states:
 			self.match_action_table[state] = {}
@@ -14,10 +15,6 @@ class invalidator(invalidator_arch):
 				self.match_action_table[state][matched_state] = None
 
 
-		#make a table of size n x n states
-		self.match_action_table = {}
-
-		self.cache_state = {}
 		#key = memory_addr
 		#value = cache state/mode
 

@@ -64,7 +64,7 @@ class requestor_arch(object):
 		return None
 		
 
-	def send_request_to_network2(self,address:int, mode:int) -> int: #is_read can just be mode (eg. M, O, E, S,...)
+	def send_request_to_network(self,directory, address:int, mode:int) -> int: #is_read can just be mode (eg. M, O, E, S,...)
 		'''
 		request cache line from network 
 
@@ -83,13 +83,15 @@ class requestor_arch(object):
 		3. add data (if received) to local cache controller 
 
 		'''
-
+		print(f"requestor_send_request_to_network({address},{mode})")
+		directory.collect_and_respond_requests(address, mode)
+		
 
 		return True
 
 
 
-	def update_cache_state(self, memory_addr:int, mode:str, new_mode_value:str) -> int:
+	def update_cache_state(self, memory_addr:int, mode:str, new_mode_value:int) -> int:
 		'''
 		update cache line to a new_state (generally after response from network)
 
@@ -104,5 +106,5 @@ class requestor_arch(object):
 		1. find the cache line entry for the given memory_addr
 		2. For the given mode (i.e. cache line state), must update the value to new_value (i.e. the mode may change from S --> M or I-->S)
 		'''
-		print("requestor_update_cache_state")
+		print(f"requestor_update_cache_state({memory_addr},{mode},{new_mode_value})")
 		pass
