@@ -12,6 +12,9 @@ class directory_msi(directory):
 		self.request_messages = ["getS", "getM"]
 		self.response_messages = ["ACK"]
 
+
+		#match action table for requetots from requestors 
+
 		self.match_action_table_requests[INVALID]["getS"] = ["self.directory_arch.get_data(memory_addr)", 
 															 "self.directory_arch.update_directory_state(memory_addr, 'mode', SHARED)", 
 													 		 "self.directory_arch.update_directory_state(memory_addr, 'sharers', sender)",
@@ -33,7 +36,7 @@ class directory_msi(directory):
 		self.match_action_table_requests[MODIFIED]["getM"] = ["self.invalidate_sharers(memory_addr, INVALID)"]
 
 
-		#responses from invalidators
+		#responses from invalidators (only two separate actions can be made )
 		self.match_action_table_responses[SHARED] = ["self.directory_arch.update_directory_state(memory_addr, 'mode', SHARED)", 
 													 "self.directory_arch.update_directory_state(memory_addr, 'sharers', sender)", 
 													 "self.directory_arch.get_data(memory_addr)"]
@@ -46,7 +49,6 @@ class directory_msi(directory):
 
 
 	def collect_and_respond_requests(self):
-		# print(directory_arch)
 		while True:
 			if len(self.interconnect.directory_queue) != 0:
 				message_name, arguments, sender = self.interconnect.directory_queue.pop()

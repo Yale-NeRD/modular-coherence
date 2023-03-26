@@ -1,4 +1,0 @@
-- make a function in connector.py that pops the most recent element
-- make everything function pointers 
-- make test file with 50 different examples and run it 
-- may need to make a new file that defines which messages are valid for each entity (invalidator, directory, requestor)
