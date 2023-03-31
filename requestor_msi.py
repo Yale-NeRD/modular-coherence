@@ -11,56 +11,81 @@ class requestor_msi(requestor):
 		super(requestor_msi, self).__init__(interconnect, requestor_arch, directory, name)
 
 		self.local_cache_state = local_cache_state
-
-
-	def get_cache_line_entry(self, memory_addr:int, requested_mode:str) -> str:
-		'''
-		main function called by requestor
+		# self.match_action_table[SHARED]["write"] = ['directory', self.name, 'getM', memory_addr]
 		
-		params:
-		:memory_addr (int) -  memory address of requested cache line 
-		:requested_mode (int) - mode that the process is requesting data block in (TODO: should be read, write)
+		self.match_action_table["read"][MODIFIED] = []
+		self.match_action_table["write"][MODIFIED] = []
 
-		return:
-		:data (str): the actual data from the cache line after it has been received
-		'''
+		self.match_action_table["read"] [SHARED]= []
+		self.match_action_table["write"][SHARED] = [(self.send_invalidation_to_dir, ('getM'))]
 
-		self.match_action_table[MODIFIED]["read"] = []
-		self.match_action_table[MODIFIED]["write"] = []
-
-		self.match_action_table[SHARED]["read"] = []
-		self.match_action_table[SHARED]["write"] = ['directory', self.name, 'getM', memory_addr]
-
-		self.match_action_table[INVALID]["read"] = ['directory', self.name, 'getS', memory_addr]
-		self.match_action_table[INVALID]["write"] = ['directory', self.name, 'getM', memory_addr]
+		self.match_action_table["read"][INVALID] = [(self.send_invalidation_to_dir, ('getS'))]
+		self.match_action_table["write"][INVALID]= [(self.send_invalidation_to_dir, ('getM'))]
 
 
+		self.match_action_table["change_state"][MODIFIED] = [self.update_state, ()]
+		self.match_action_table["change_state"][INVALID] = [self.update_state, ()]
+		self.match_action_table["change_state"][SHARED] = [self.update_state, ()]
 
-		cache_state = INVALID
-		if memory_addr in self.local_cache_state:
-			cache_state = self.local_cache_state[memory_addr] #should be implemented via the architecture code 
-		# for func, param in self.match_action_table[cache_state][requested_mode]:
-		action_table_entry = self.match_action_table[cache_state][requested_mode]
+	def run(self):
 
-		if len(action_table_entry) == 0:
-			#this is when the list of match action table is less than 0. In this case, don't do anything for now
-			#TODO, figure out if I need to return anything here (i.e. the actual data)
-			pass
+		message = self.interconnect.get_message(self.name, invalidator=False)
+		args = self.parse_message(message)
+		current_state = get_current_state(args["memory_addr"])
+		ftn_list = self.get_match_action_table_entry(args, current_state) 
+		self.invoke_matched_function(ftn_list, args)
+
+	def get_current_state(message):
+		current_state = self.requestor_arch.get_current_cache_line_mode(self, args["memory_addr"])
+		#FOR TESTING:
+		current_state = INVALID
+		return current_state
+
+	def parse_message(message):
+		args = {}
+		args["dest"] = message[0]
+		args["src"] = message[1]
+		message_contents = message[2]
+		#format of read is ("read", memory_addr)
+		if message_contents[0] == "read" or message_contents[0] == "write":
+			args["memory_addr"] = message_contents[1]
+		#format of change_state is ("change_state", mode, MODIFIED)
+		elif message_contents[0] == "change_state":
+			args["memory_addr"] = message_contents[1]
+			args["mode"] = message_contents[2]
+			args["new_mode_value"] = message_contents[3]
 		else:
-			#otherwise send message
-			self.interconnect.send_message(action_table_entry[0], action_table_entry[1], action_table_entry[2], action_table_entry[3])
+			print("ERROR") #TODO, CHANGE TO RAISE ERROR 
+		return args
 
-	def read_queue(self, thread_return):
-		while True:
-			request = self.interconnect.get_queue_element(self.name, invalidator=False)
-			if request is not None:
-				message_name, arguments, sender = request
-				if message_name == "change_state":
-					state, address = arguments
-					self.local_cache_state[address] = state
-				print("request read by requestor", request, self.local_cache_state[address])
-				thread_return["success"] = self.local_cache_state[address]
-				return
+	def get_match_action_table_entry(self, args, current_state):
+		return self.match_action_table[args["message_name"]][current_state]
+
+	def invoke_matched_function(self, tn_list, args):
+		for ftn, param in ftn_list:
+			new_param = param + (args) #this adds context, args to the param_list
+			ftn(*new_param)
+
+	def send_invalidation_to_dir(self, message, args):
+		if message == "getM":
+			self.interconnect.send_message('directory', self.name, ("getM", args["memory_addr"]))
+		elif message == "getS":
+			self.interconnect.send_message('directory', self.name, ("getS",args["memory_addr"]))
+
+	def update_state(self, args):
+		self.requestor_arch.update_cache_state(args["memory_addr"], args["mode"], args["new_mode_value"] 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

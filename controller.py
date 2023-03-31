@@ -150,3 +150,14 @@ def run_test(shared_state, shared_state2, global_cache_state,request_address, re
 		print("FAILED TEST\n=====================")
 	# sys.exit()
 
+def run_entity(name, entity, interconnect, controller_object):
+	queue = None
+	if entity == "requestor":
+		queue = interconnect.controller_queues[name]["requestor"]
+	elif entity == "invalidator":
+		queue = interconnect.controller_queues[name]["requestor"]
+	else:
+		queue = 
+
+
+

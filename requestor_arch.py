@@ -25,7 +25,7 @@ class requestor_arch(object):
 		'''
 		pass
 
-	def get_stored_cache_line_mode(self, memory_addr: int) -> int:
+	def get_current_cache_line_mode(self, memory_addr: int) -> int:
 		'''
 		gets mode (i.e. modified, shared, invalid) for a stored cache line entry; 
 		if cache line entry doesn't exist: return invalid)
@@ -42,52 +42,9 @@ class requestor_arch(object):
 
 		'''
 
-		return mode
+		print("REQUESTOR: searching cache state of memory_addr", memory_addr)
 
-	def initialize_cache_line_entry(self,memory_addr:int) -> int: #
-		'''
-		prepares a cache_entry before a request is made. Specifically, if:
-			- If cache line entry doesn't exist for address, prepare cache entry for it (i.e. evict block) and return True 
-			- If cache line entry exists, return True
-			- other cases error out (return False)
-
-		params:
-		:memory_addr - memory address of data being requested
-
-		return None
-
-		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
-		Do as described in function description above
-
-		'''
-
-		return None
-		
-
-	def send_request_to_network(self,directory, address:int, mode:int) -> int: #is_read can just be mode (eg. M, O, E, S,...)
-		'''
-		request cache line from network 
-
-		params:
-		:address - address of page desired 
-		:mode (int) - request of M, O, E, S, I, etc. (should map to cache_entry_states)
-
-		
-		return:
-		: mode: mode of address being returned 
-
-		####REQUIREMENTS FOR ARCHITECTURE DEVELOPER####
-		1. send cache line request for new mode (if needed) to the directory 
-		2. Wait for response from directory before returning, which is packet that has 
-		information about data and new_mode to change local state to 
-		3. add data (if received) to local cache controller 
-
-		'''
-		print(f"requestor_send_request_to_network({address},{mode})")
-		directory.collect_and_respond_requests(address, mode)
-		
-		return True
-
+		# return mode
 
 
 	def update_cache_state(self, memory_addr:int, mode:str, new_mode_value:int) -> int:
@@ -105,5 +62,5 @@ class requestor_arch(object):
 		1. find the cache line entry for the given memory_addr
 		2. For the given mode (i.e. cache line state), must update the value to new_value (i.e. the mode may change from S --> M or I-->S)
 		'''
-		print(f"requestor_update_cache_state({memory_addr},{mode},{new_mode_value})")
+		print("REQUESTOR: Update cache state of memory_addr", memory_addr, "with mode:", mode, "and new value:", new_mode_value)
 		pass

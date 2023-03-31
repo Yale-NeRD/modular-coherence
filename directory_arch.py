@@ -6,13 +6,24 @@ class directory_arch(object):
 
 
 	def get_data(self, memory_addr):
-		print("directory_get_data(", memory_addr, ")")
+		print("DIRECTORY: directory_get_data(", memory_addr, ")")
 		
-	# def respond_to_requestor(self, requestor, memory_addr, data, modified):
-	# 	pass
-	def update_directory_state(self, memory_addr, state, new_state_value):
-		print("update_directory_state(", memory_addr, state, new_state_value,")")
+	def update_directory_state(self, memory_addr, mode, new_mode_value):
+		print("DIRECTORY: update_directory_state(", memory_addr, mode, new_mode_value,")")
 		pass
+
+	def get_directory_state(self, memory_addr, mode):
+		print("DIRECTORY: get_directory_state(", memory_addr, mode")")
+
+
+	def store_request(self, requestor, memory_addr,new_state_requestor):
+		print("DIRECTORY: store_request(", requestor, memory_addr, new_state_requestor")")
+
+	def get_request(self, memory_addr):
+		print("DIRECTORY: get_request(", memory_addr, ")")
+		#return requestor, and new_state_requestor
+
+
 
 
 
