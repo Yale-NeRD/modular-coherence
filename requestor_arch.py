@@ -64,3 +64,5 @@ class requestor_arch(object):
 		'''
 		print("REQUESTOR: Update cache state of memory_addr", memory_addr, "with mode:", mode, "and new value:", new_mode_value)
 		pass
+
+		

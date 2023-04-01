@@ -26,6 +26,7 @@ class interconnect(object):
 
 
 	def get_message(self, name, invalidator=False):
+		print("REQUESTOR name", name)
 		queue = None
 		if name == "directory":
 			queue = self.directory_queue 
@@ -34,8 +35,10 @@ class interconnect(object):
 		elif name in self.controller_queues and invalidator == False:
 			queue = self.controller_queues[name]["requestor"]
 
+		# print("HERE", queue)
 		while(True):
-			if len(queue) > 1:
+			# print("HERE2")
+			if len(queue) >= 1:
 				message = queue.pop()
 				return message
 

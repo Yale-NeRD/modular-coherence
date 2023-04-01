@@ -8,15 +8,15 @@ class directory(object):
 
 		self.directory_arch = directory_arch
 
-		self.cache_line_states = ["invalid", "shared", "modified"]
+		# self.cache_line_states = ["invalid", "shared", "modified"]
+
+		self.valid_messages = ["getS", "getM", "ACK"]
 
 		#make a table of size n x n states
-		self.match_action_table_requests = {}
-		self.match_action_table_responses = {}
+		self.match_action_table = {}
 
-		for state in cache_line_states:
-			self.match_action_table_requests[state] = {}
-			self.match_action_table_responses[state] = {}
+		for msg in self.valid_messages:
+			self.match_action_table[msg] = {}
 
 
 		self.global_cache_state = {}

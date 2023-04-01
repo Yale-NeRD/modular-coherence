@@ -11,10 +11,10 @@ class invalidator(object):
 
 		self.match_action_table = {}
 
-		for state in cache_line_states:
-			self.match_action_table[state] = {}
-			for matched_state in cache_line_states:
-				self.match_action_table[state][matched_state] = None
+		self.valid_messages = ["change_state"]
+
+		for msg in self.valid_messages:
+			self.match_action_table[msg] = {}
 
 		self.interconnect = interconnect
 		self.invalidator_queue = self.interconnect.controller_queues[self.name]["invalidator"]

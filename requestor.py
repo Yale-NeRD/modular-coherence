@@ -8,16 +8,18 @@ class requestor(object):
 	#cache entry states must be defined by cache coherence developer 
 	def __init__(self, interconnect, requestor_arch,directory, name):
 
-		requestor_arch = requestor_arch
+		self.requestor_arch = requestor_arch
 
 		self.match_action_table = {}
 
 		self.name = name
 
-		for state in cache_line_states:
-			self.match_action_table[state] = {}
-			for matched_state in cache_line_states:
-				self.match_action_table[state][matched_state] = None
+		self.valid_messages = ["change_state", "read", "write"]
+
+		for msg in self.valid_messages:
+			self.match_action_table[msg] = {}
+			# for matched_state in cache_line_states:
+				# self.match_action_table[state][matched_state] = None
 
 
 		self.directory = directory
