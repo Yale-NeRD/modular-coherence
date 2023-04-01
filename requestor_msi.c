@@ -1,5 +1,5 @@
 char * interconnect__get_message(char* self_name, int* invalidator);
-char * requestor_arch__get_current_cache_line_mode(char ** args;
+char * requestor_arch__get_current_cache_line_mode(char ** args);
 
 int run(){
 	message = interconnect__get_message(self_name, False);
@@ -30,4 +30,3 @@ int parse_message(char *message){
 int get_current_state(char ** args):
 	int current_state = requestor_arch__get_current_cache_line_mode(args["memory_addr"]);
 	return current_state;
-
