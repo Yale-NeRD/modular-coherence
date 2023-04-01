@@ -69,12 +69,7 @@ class requestor_msi(requestor):
 			ftn(*tuple(param)) #this adds context, args to the param_list
 
 	def send_invalidation_to_dir(self, message, args):
-		if message == "getM":
-			print("SENT MESSAGE", "getM")
-			self.interconnect.send_message('directory', self.name, ("getM", args["memory_addr"]))
-		elif message == "getS":
-			print("SENT MESSAGE", "getS")
-			self.interconnect.send_message('directory', self.name, ("getS",args["memory_addr"]))
+		self.interconnect.send_message('directory', self.name, (message, args["memory_addr"]))
 
 	def update_state(self, args):
 		self.requestor_arch.update_cache_state(args["memory_addr"], args["mode"], args["new_mode_value"])
