@@ -1,14 +1,14 @@
 import inspect
 import textwrap
 from cache_state import *
+from run_entity import run_entity
 
 
-class directory(object):
+class directory(run_entity):
 	def __init__(self,interconnect, directory_arch):
+		super(directory, self).__init__(interconnect, None)
 
 		self.directory_arch = directory_arch
-
-		# self.cache_line_states = ["invalid", "shared", "modified"]
 
 		self.valid_messages = ["getS", "getM", "ACK"]
 
@@ -24,6 +24,8 @@ class directory(object):
 		#value = dict(data, mode, [sharers])
 
 		self.interconnect = interconnect
+
+		self.name = "directory"
 
 
 

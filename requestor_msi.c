@@ -27,6 +27,8 @@ int parse_message(char *message){
 	return args;
 }
 
-int get_current_state(char ** args):
+int get_current_state(char ** args) {
 	int current_state = requestor_arch__get_current_cache_line_mode(args["memory_addr"]);
 	return current_state;
+
+}

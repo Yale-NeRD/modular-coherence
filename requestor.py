@@ -2,11 +2,13 @@ import inspect
 import textwrap
 from requestor_arch import requestor_arch
 from cache_state import *
+from run_entity import run_entity
 
 
-class requestor(object):
+class requestor(run_entity):
 	#cache entry states must be defined by cache coherence developer 
 	def __init__(self, interconnect, requestor_arch,directory, name):
+		super(requestor, self).__init__(interconnect, False)
 
 		self.requestor_arch = requestor_arch
 
@@ -15,6 +17,7 @@ class requestor(object):
 		self.name = name
 
 		self.valid_messages = ["change_state", "read", "write"]
+		self.valid_states = [INVALID, SHARED, MODIFIED]
 
 		for msg in self.valid_messages:
 			self.match_action_table[msg] = {}
@@ -24,7 +27,7 @@ class requestor(object):
 
 		self.directory = directory
 
-		self.interconnect = interconnect
+		# self.interconnect = interconnect
 		self.requestor_queue = self.interconnect.controller_queues[self.name]["requestor"]
 
 		# self.local_cache_state = {}
