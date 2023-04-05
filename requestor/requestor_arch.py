@@ -1,7 +1,3 @@
-#GLOBAL STATE DEFINTIONS
-MODIFIED = 2
-SHARED = 1 
-INVALID = 0
 
 class requestor_arch(object):
 	def __init__(self):

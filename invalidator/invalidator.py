@@ -15,7 +15,6 @@ class invalidator(run_entity):
 		self.name = name
 
 		self.invalidator_arch = invalidator_arch
-
 		
 		self.valid_messages = ["change_state"]
 
@@ -28,6 +27,5 @@ class invalidator(run_entity):
 		self.interconnect = interconnect
 
 
-		#key = memory_addr
-		#value = cache state/mode
+
 
