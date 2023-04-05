@@ -1,8 +1,12 @@
+import sys
+sys.path.insert(0,"..")
+
+
 import inspect
 import textwrap
 # from invalidator_arch import invalidator_arch
 from cache_state import *
-from invalidator import invalidator
+from invalidator.invalidator import invalidator
 
 class invalidator_msi(invalidator):
 	def __init__(self, interconnect, invalidator_arch, local_cache_state, name="a"):

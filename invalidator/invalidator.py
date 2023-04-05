@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0,"..")
+
+
 import inspect
 import textwrap
 # from invalidator_arch import invalidator_arch

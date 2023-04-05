@@ -1,7 +1,10 @@
+import sys
+sys.path.insert(0,"..")
+
 import inspect
 import textwrap
 from cache_state import *
-from directory import directory
+from directory.directory import directory
 
 
 class directory_msi(directory):

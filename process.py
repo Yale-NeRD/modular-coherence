@@ -1,6 +1,6 @@
-from invalidator import invalidator 
-from requestor import requestor
-from directory import directory 
+from invalidator.invalidator_msi import invalidator_msi
+from requestor.requestor_msi import requestor_msi
+from directory.directory_msi import directory_msi
 
 #==========================================================================
 # EXAMPLE 1

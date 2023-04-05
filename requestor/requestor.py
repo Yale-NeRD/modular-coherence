@@ -1,6 +1,5 @@
 import inspect
 import textwrap
-from requestor_arch import requestor_arch
 from cache_state import *
 from run_entity import run_entity
 

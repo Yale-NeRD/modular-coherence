@@ -1,12 +1,12 @@
 import inspect
 import textwrap
-from requestor_msi import requestor_msi
-from invalidator_msi import invalidator_msi
-from directory_msi import directory_msi
+from requestor.requestor_msi import requestor_msi
+from invalidator.invalidator_msi import invalidator_msi
+from directory.directory_msi import directory_msi
 from cache_state import *
-from requestor_arch import requestor_arch
-from directory_arch import directory_arch
-from invalidator_arch import invalidator_arch
+from requestor.requestor_arch import requestor_arch
+from directory.directory_arch import directory_arch
+from invalidator.invalidator_arch import invalidator_arch
 from interconnect import interconnect
 import time
 import threading

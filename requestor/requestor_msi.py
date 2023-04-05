@@ -1,7 +1,9 @@
+import sys
+sys.path.insert(0,"..")
+
 import inspect
 import textwrap
-from requestor_arch import requestor_arch
-from requestor import requestor
+from requestor.requestor import requestor
 from cache_state import *
 
 
