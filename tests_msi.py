@@ -1,9 +1,6 @@
-
 import time
-# from controller import run_test
-from cache_state import *
+from cache_state_msi import *
 import sys
-
 import threading
 import multiprocessing 
 import os
@@ -67,7 +64,6 @@ CORRECT_ANSWER = MODIFIED
 new_test_environment = test_environment(shared_state, shared_state2, global_cache_state, request_address, request_type,CORRECT_ANSWER)
 new_test_environment.run_test()
 
-
 time.sleep(3)
 
 shared_state = {0:INVALID} #a1 state
@@ -79,7 +75,6 @@ request_type = "read"
 CORRECT_ANSWER = SHARED
 new_test_environment = test_environment(shared_state, shared_state2, global_cache_state, request_address, request_type,CORRECT_ANSWER)
 new_test_environment.run_test()
-
 
 time.sleep(3)
 
@@ -93,7 +88,6 @@ CORRECT_ANSWER = MODIFIED
 new_test_environment = test_environment(shared_state, shared_state2, global_cache_state, request_address, request_type,CORRECT_ANSWER)
 new_test_environment.run_test()
 
-
 time.sleep(3)
 
 shared_state = {0:SHARED} #a1 state
@@ -118,7 +112,6 @@ CORRECT_ANSWER = MODIFIED
 new_test_environment = test_environment(shared_state, shared_state2, global_cache_state, request_address, request_type,CORRECT_ANSWER)
 new_test_environment.run_test()
 
-
 time.sleep(3)
 
 shared_state = {0:MODIFIED} #a1 state
@@ -130,7 +123,3 @@ request_type = "read"
 CORRECT_ANSWER = MODIFIED
 new_test_environment = test_environment(shared_state, shared_state2, global_cache_state, request_address, request_type,CORRECT_ANSWER)
 new_test_environment.run_test(end=True)
-
-
-
-

@@ -4,7 +4,7 @@ sys.path.insert(0,"..")
 import inspect
 import textwrap
 from requestor.requestor import requestor
-from cache_state import *
+from cache_state_msi import *
 
 class requestor_msi(requestor):
 	#cache entry states must be defined by cache coherence developer 
@@ -30,7 +30,6 @@ class requestor_msi(requestor):
 	def get_current_state(self,memory_addr):
 		current_state = self.requestor_arch.get_current_cache_line_mode(memory_addr)
 
-
 		#FOR TESTING:
 		current_state = INVALID
 		if memory_addr in self.local_cache_state:
@@ -39,7 +38,6 @@ class requestor_msi(requestor):
 
 	def send_invalidation_to_dir(self, message_new, dest, src, msg_name, memory_addr, message):
 		self.interconnect.send_message('directory', self.name, (message_new, memory_addr))
-		print("SEND_MESSAGE TO DIRECTORY")
 	
 	def update_state(self, args, f=None):
 		self.requestor_arch.update_cache_state(args["memory_addr"], args["mode"], args["new_mode_value"])
@@ -51,4 +49,7 @@ class requestor_msi(requestor):
 
 		#FOR TESTING
 		self.local_cache_state[memory_addr] = new_mode_value
+
+
+
 		

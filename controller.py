@@ -3,7 +3,6 @@ import textwrap
 from requestor.requestor_msi import requestor_msi
 from invalidator.invalidator_msi import invalidator_msi
 from directory.directory_msi import directory_msi
-from cache_state import *
 from requestor.requestor_arch import requestor_arch
 from directory.directory_arch import directory_arch
 from invalidator.invalidator_arch import invalidator_arch

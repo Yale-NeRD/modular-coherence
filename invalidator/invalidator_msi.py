@@ -4,8 +4,7 @@ sys.path.insert(0,"..")
 
 import inspect
 import textwrap
-# from invalidator_arch import invalidator_arch
-from cache_state import *
+from cache_state_msi import *
 from invalidator.invalidator import invalidator
 
 class invalidator_msi(invalidator):

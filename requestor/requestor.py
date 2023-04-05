@@ -1,6 +1,5 @@
 import inspect
 import textwrap
-from cache_state import *
 from run_entity import run_entity
 
 
@@ -16,7 +15,6 @@ class requestor(run_entity):
 		self.name = name
 
 		self.valid_messages = ["change_state", "read", "write"]
-		self.valid_states = [INVALID, SHARED, MODIFIED]
 
 		for msg in self.valid_messages:
 			self.match_action_table[msg] = {}
