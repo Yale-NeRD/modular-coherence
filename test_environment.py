@@ -6,6 +6,11 @@ from requestor.requestor_arch import requestor_arch
 from directory.directory_arch import directory_arch
 from invalidator.invalidator_arch import invalidator_arch
 from interconnect import interconnect
+
+from requestor.requestor_mesi import requestor_mesi
+from invalidator.invalidator_mesi import invalidator_mesi
+from directory.directory_mesi import directory_mesi
+
 import time
 import sys
 import threading
@@ -14,23 +19,22 @@ import os
 
 class test_environment(object):
 
-	def __init__(self, shared_state, shared_state2, global_cache_state,request_address, request_type, CORRECT_ANSWER):
+	def __init__(self, shared_state, shared_state2, global_cache_state,request_address, request_type, correct_answer, directory_type, requestor_type, invalidator_type):
 		self.controller_names = ["a1", "a2"]
 
 		self.interconnect_object = interconnect(self.controller_names)
 		self.requestor_arch1 = requestor_arch()
 		self.invalidator_arch1 = invalidator_arch()
 		self.dir_arch = directory_arch()
-		self.directory = directory_msi(self.interconnect_object, self.dir_arch, global_cache_state)
+		self.directory = directory_type(self.interconnect_object, self.dir_arch, global_cache_state)
 
-		#two controllers that have requestor and invalidator
-		self.a1 = controller(self.interconnect_object, requestor_msi, invalidator_msi, self.directory, self.requestor_arch1, self.invalidator_arch1,shared_state, shared_state, name="a1")
-		self.a2 = controller(self.interconnect_object, requestor_msi, invalidator_msi, self.directory, self.requestor_arch1, self.invalidator_arch1, shared_state2, shared_state2, name="a2")
-
+		# #two controllers that have requestor and invalidator
+		self.a1 = controller(self.interconnect_object, requestor_type, invalidator_type, self.directory, self.requestor_arch1, self.invalidator_arch1,shared_state, shared_state, name="a1")
+		self.a2 = controller(self.interconnect_object, requestor_type, invalidator_type, self.directory, self.requestor_arch1, self.invalidator_arch1, shared_state2, shared_state2, name="a2")
 
 		self.request_address = request_address
 		self.request_type = request_type
-		self.correct_answer = CORRECT_ANSWER
+		self.correct_answer = correct_answer
 
 		self.interconnect_object.controller_queues["a1"]["requestor"].append(("a1", "application", (self.request_type, self.request_address)))
 		self.thread_return = {"success":-1}

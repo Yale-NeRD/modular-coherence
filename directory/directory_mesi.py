@@ -3,29 +3,34 @@ sys.path.insert(0,"..")
 
 import inspect
 import textwrap
-from cache_state_msi import *
+from cache_state_mesi import *
 from directory.directory import directory
 
 
-class directory_msi(directory):
+class directory_mesi(directory):
 	def __init__(self, interconnect, directory_arch, directory_cache_state):
-		super(directory_msi, self).__init__(interconnect, directory_arch)
+		super(directory_mesi, self).__init__(interconnect, directory_arch)
 
 		self.requests = {}
 
 		self.directory_cache_state = directory_cache_state
 
-		self.match_action_table["getS"][INVALID] = [(self.respond_to_requestor_immediate, [SHARED, True])]
+		self.match_action_table["getS"][INVALID] = [(self.respond_to_requestor_immediate, [EXCLUSIVE, True])]
 
 		self.match_action_table["getM"][INVALID] = [(self.respond_to_requestor_immediate, [MODIFIED, True])]
 
 		self.match_action_table["getS"][SHARED] = [(self.respond_to_requestor_immediate, [SHARED, False])]
 
-		self.match_action_table["getM"][SHARED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] #these should be directory arch functions in general
+		self.match_action_table["getM"][SHARED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] 
 
-		self.match_action_table["getS"][MODIFIED] = [(self.invalidate_sharers, [SHARED, SHARED])] #these should be directory arch functions in general
+		self.match_action_table["getS"][MODIFIED] = [(self.invalidate_sharers, [INVALID, EXCLUSIVE])] 
 
-		self.match_action_table["getM"][MODIFIED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] #these should be directory arch functions in general, but for simulation this works
+		self.match_action_table["getM"][MODIFIED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] 
+
+		self.match_action_table["getS"][EXCLUSIVE] = [(self.invalidate_sharers, [SHARED, SHARED])] 
+
+		self.match_action_table["getM"][EXCLUSIVE] = [(self.invalidate_sharers, [INVALID, MODIFIED])] #NEW STATE IS EXCLUSIVE
+		
 
 		self.match_action_table["ACK"][INVALID] = []
 		self.match_action_table["ACK"][SHARED] = [(self.respond_to_requestor_after_invalidator, [])]
@@ -49,7 +54,6 @@ class directory_msi(directory):
 
 	def get_current_state(self,memory_addr):
 		#FOR TESTING:
-		# current_state = SHARED
 		current_state = INVALID
 		if memory_addr in self.directory_cache_state:
 			current_state = self.directory_cache_state[memory_addr]["mode"]
