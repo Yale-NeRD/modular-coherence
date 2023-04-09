@@ -38,6 +38,24 @@ class directory_mesi(directory):
 		self.match_action_table["ACK"][EXCLUSIVE] = [(self.respond_to_requestor_after_invalidator, [])]
 
 	def respond_to_requestor_immediate(self, new_state, update_directory_internal_state, dest, src, msg_name, memory_addr, message):
+		"""
+	    sends response message to requestor immediately without talking to any sharers (or performing invalidation) 
+
+	    Parameters
+	    ----------
+	    new_state: str - new mode for requestor to update state for cache block
+	    update_directory_internal_state: bool: True/False to update state internally (or not for already shared)
+	    dest : str - name of destination entity of received message
+	    src : str - name of source entity of received message 
+	    msg_name: str - name of message that was received 
+	    memory_addr: int - address of block being requested 
+	    message: obj - full message that was received 
+
+	    Returns
+	    -------
+	    None
+
+		"""
 		data = self.directory_arch.get_data(memory_addr)
 		if update_directory_internal_state:
 			self.directory_arch.update_directory_state(memory_addr, 'mode', new_state)
@@ -45,6 +63,22 @@ class directory_mesi(directory):
 		self.interconnect.send_message(src, 'directory', ('change_state', memory_addr, "mode", new_state), False)
 
 	def respond_to_requestor_after_invalidator(self, dest, src, msg_name, memory_addr, message):
+		"""
+	    sends response message after receiving acks by sharers (and/or performing invalidation) 
+
+	    Parameters
+	    ----------
+	    dest : str - name of destination entity of received message
+	    src : str - name of source entity of received message 
+	    msg_name: str - name of message that was received 
+	    memory_addr: int - address of block being requested 
+	    message: obj - full message that was received 
+
+	    Returns
+	    -------
+	    None
+
+		"""
 		requestor, new_state_requestor = self.directory_arch.get_request(memory_addr) #get request
 
 		requestor, new_state_requestor = self.requests[memory_addr]  #FOR SAKE OF TESITNG, CAN BE REMOVED IN FUTURE
@@ -54,6 +88,19 @@ class directory_mesi(directory):
 		self.interconnect.send_message(requestor, 'directory', ('change_state', memory_addr, "mode", new_state_requestor), False)
 
 	def get_current_state(self,memory_addr):
+		"""
+	    gets current state of cache block for memory_addr in directoruy entity 
+
+	    Parameters
+	    ----------
+	    memory_addr : int - address of block being requested 
+
+	    Returns
+	    -------
+	    int
+	        current mode of cache block in requestor entity
+
+		"""
 		#FOR TESTING:
 		current_state = INVALID
 		if memory_addr in self.directory_cache_state:
@@ -62,6 +109,24 @@ class directory_mesi(directory):
 
 
 	def invalidate_sharers(self, new_state_invalidator, new_state_requestor, dest, src, msg_name, memory_addr, message):
+		"""
+	    sends invalidation requests to sharers of a given memory block 
+
+	    Parameters
+	    ----------
+	    new_state_invalidator: int - new state for invalidator entities toupdate cache block
+	    new_state_requestor: int - new state to update cache block for requestor 
+	    dest : str - name of destination entity of received message
+	    src : str - name of source entity of received message 
+	    msg_name: str - name of message that was received 
+	    memory_addr: int - address of block being requested 
+	    message: obj - full message that was received 
+
+	    Returns
+	    -------
+	    None
+
+		"""
 		self.directory_arch.store_request(src, memory_addr, new_state_requestor) #store request
 		sharers = self.directory_arch.get_directory_state(memory_addr, "sharers")
 
@@ -73,6 +138,22 @@ class directory_mesi(directory):
 
 
 	def get_data(self, dest, src, msg_name, memory_addr, message):
+		"""
+	   	get data from main memory for given memory_addr
+
+	    Parameters
+	    ----------
+	    dest : str - name of destination entity of received message
+	    src : str - name of source entity of received message 
+	    msg_name: str - name of message that was received 
+	    memory_addr: int - address of block being requested 
+	    message: obj - full message that was received 
+
+	    Returns
+	    -------
+	    data object
+
+		"""
 		self.directory_arch.get_data(memory_addr)
 
 
