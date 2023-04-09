@@ -13,6 +13,9 @@ class requestor_msi(requestor):
 
 		self.local_cache_state = local_cache_state
 
+		'''defintion of match_action_table for requestor to store relevant commands for 
+		requestor based on received message_name and current state of block'''
+
 		self.match_action_table["read"][MODIFIED] = []
 		self.match_action_table["write"][MODIFIED] = []
 

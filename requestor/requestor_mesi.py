@@ -13,6 +13,9 @@ class requestor_mesi(requestor):
 
 		self.local_cache_state = local_cache_state
 
+		'''defintion of match_action_table for requestor to store relevant commands for 
+		requestor based on received message_name and current state of block'''
+		
 		self.match_action_table["read"][MODIFIED] = []
 		self.match_action_table["write"][MODIFIED] = []
 
@@ -24,7 +27,6 @@ class requestor_mesi(requestor):
 
 		self.match_action_table["read"][EXCLUSIVE] = []
 		self.match_action_table["write"][EXCLUSIVE] = [(self.send_invalidation_to_dir, ['getM'])]
-
 
 		self.match_action_table["change_state"][MODIFIED] = [(self.update_state, [])]
 		self.match_action_table["change_state"][INVALID] = [(self.update_state, [])]

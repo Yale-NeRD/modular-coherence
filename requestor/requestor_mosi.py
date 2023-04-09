@@ -11,8 +11,12 @@ class requestor_mosi(requestor):
 	def __init__(self, interconnect, requestor_arch, directory, local_cache_state, name):
 		super(requestor_mosi, self).__init__(interconnect, requestor_arch, directory, name)
 
-		self.local_cache_state = local_cache_state
+		self.local_cache_state = local_cache_state #local cache state passed in at init time in user defined tests
 
+
+		'''defintion of match_action_table for requestor to store relevant commands for 
+		requestor based on received message_name and current state of block'''
+		
 		self.match_action_table["read"][] = []
 		self.match_action_table["write"][MODIFIED] = []
 
@@ -24,7 +28,6 @@ class requestor_mosi(requestor):
 
 		self.match_action_table["read"][OWNED] = []
 		self.match_action_table["write"][OWNED]= [(self.send_invalidation_to_dir, ['getM'])]
-
 
 		self.match_action_table["change_state"][MODIFIED] = [(self.update_state, [])]
 		self.match_action_table["change_state"][INVALID] = [(self.update_state, [])]
