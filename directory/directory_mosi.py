@@ -3,11 +3,11 @@ sys.path.insert(0,"..")
 
 import inspect
 import textwrap
-from cache_state_mesi import *
+from cache_state_mosi import *
 from directory.directory import directory
 
 
-class directory_mesi(directory):
+class directory_mosi(directory):
 	def __init__(self, interconnect, directory_arch, directory_cache_state):
 		super(directory_mesi, self).__init__(interconnect, directory_arch)
 
@@ -27,15 +27,15 @@ class directory_mesi(directory):
 
 		self.match_action_table["getM"][MODIFIED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] 
 
-		self.match_action_table["getS"][EXCLUSIVE] = [(self.invalidate_sharers, [SHARED, SHARED])] 
+		self.match_action_table["getS"][OWNED] = [(self.invalidate_sharers, [SHARED, SHARED])] 
 
-		self.match_action_table["getM"][EXCLUSIVE] = [(self.invalidate_sharers, [INVALID, MODIFIED])] #NEW STATE IS EXCLUSIVE
+		self.match_action_table["getM"][OWNED] = [(self.invalidate_sharers, [INVALID, MODIFIED])] #NEW STATE IS EXCLUSIVE
 		
 
 		self.match_action_table["ACK"][INVALID] = []
 		self.match_action_table["ACK"][SHARED] = [(self.respond_to_requestor_after_invalidator, [])]
 		self.match_action_table["ACK"][MODIFIED] = [(self.respond_to_requestor_after_invalidator, [])]
-		self.match_action_table["ACK"][EXCLUSIVE] = [(self.respond_to_requestor_after_invalidator, [])]
+		self.match_action_table["ACK"][OWNED] = [(self.respond_to_requestor_after_invalidator, [])]
 
 	def respond_to_requestor_immediate(self, new_state, update_directory_internal_state, dest, src, msg_name, memory_addr, message):
 		data = self.directory_arch.get_data(memory_addr)

@@ -4,14 +4,12 @@ sys.path.insert(0,"..")
 
 import inspect
 import textwrap
-from cache_state_msi import *
+from cache_state_mosi import *
 from invalidator.invalidator import invalidator
 
-class invalidator_msi(invalidator):
-
-
+class invalidator_mosi(invalidator):
 	def __init__(self, interconnect, invalidator_arch, local_cache_state, name="a"):
-		super(invalidator_msi, self).__init__(interconnect, invalidator_arch, name)
+		super(invalidator_mosi, self).__init__(interconnect, invalidator_arch, name)
 
 		self.local_cache_state = local_cache_state
 
@@ -25,6 +23,9 @@ class invalidator_msi(invalidator):
 		                                                     (self.flush_cache_to_network, []),
 															(self.send_ack_to_dir, [])]
 
+		self.match_action_table["change_state"][OWNED] = [(self.update_state, []), #NOT SURE IF THIS IS CORRECT
+														  (self.flush_cache_to_network, []),
+														  (self.send_ack_to_dir, [])]
 
 	def get_current_state(self, memory_addr):
 		"""
@@ -63,8 +64,6 @@ class invalidator_msi(invalidator):
 	    Returns
 	    -------
 	    None
-	        
-
 		"""
 		self.invalidator_arch.flush_cache_line_entry_to_network(memory_addr)
 

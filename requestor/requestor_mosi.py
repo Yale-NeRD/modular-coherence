@@ -4,16 +4,16 @@ sys.path.insert(0,"..")
 import inspect
 import textwrap
 from requestor.requestor import requestor
-from cache_state_mesi import *
+from cache_state_mosi import *
 
-class requestor_mesi(requestor):
+class requestor_mosi(requestor):
 	#cache entry states must be defined by cache coherence developer 
 	def __init__(self, interconnect, requestor_arch, directory, local_cache_state, name):
-		super(requestor_mesi, self).__init__(interconnect, requestor_arch, directory, name)
+		super(requestor_mosi, self).__init__(interconnect, requestor_arch, directory, name)
 
 		self.local_cache_state = local_cache_state
 
-		self.match_action_table["read"][MODIFIED] = []
+		self.match_action_table["read"][] = []
 		self.match_action_table["write"][MODIFIED] = []
 
 		self.match_action_table["read"] [SHARED]= []
@@ -22,8 +22,8 @@ class requestor_mesi(requestor):
 		self.match_action_table["read"][INVALID] = [(self.send_invalidation_to_dir, ['getS'])]
 		self.match_action_table["write"][INVALID]= [(self.send_invalidation_to_dir, ['getM'])]
 
-		self.match_action_table["read"][EXCLUSIVE] = []
-		self.match_action_table["write"][EXCLUSIVE] = [(self.send_invalidation_to_dir, ['getM'])]
+		self.match_action_table["read"][OWNED] = []
+		self.match_action_table["write"][OWNED]= [(self.send_invalidation_to_dir, ['getM'])]
 
 
 		self.match_action_table["change_state"][MODIFIED] = [(self.update_state, [])]
