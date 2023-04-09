@@ -10,12 +10,12 @@ from interconnect import interconnect
 import time
 import threading
 import sys
-import multiprocessing 
-
+import multiprocessing
 
 
 class controller(object):
-	def __init__(self, interconnect, requestor, invalidator, directory, requestor_arch,invalidator_arch, requestor_cache_state, invalidator_cache_state, name):
-		self.requestor = requestor(interconnect, requestor_arch, directory, requestor_cache_state, name)
-		self.invalidator = invalidator(interconnect, invalidator_arch, invalidator_cache_state, name)
-
+    def __init__(self, interconnect, requestor, invalidator, directory, requestor_arch, invalidator_arch, requestor_cache_state, invalidator_cache_state, name):
+        self.requestor = requestor(
+            interconnect, requestor_arch, directory, requestor_cache_state, name)
+        self.invalidator = invalidator(
+            interconnect, invalidator_arch, invalidator_cache_state, name)

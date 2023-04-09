@@ -16,11 +16,11 @@ from interconnect import interconnect
 import time
 import threading
 import sys
-import multiprocessing 
+import multiprocessing
 
 
-#USER DEFINED
-# convert_requestor = True #if True, then converts requestor, else converts invalidator to c source code 
+# USER DEFINED
+# convert_requestor = True #if True, then converts requestor, else converts invalidator to c source code
 
 # if convert_requestor:
 # 	requestor_main_method_name = "get_cache_line_entry"
@@ -28,7 +28,7 @@ import multiprocessing
 # 	output_file_name = "requestor.c"
 # else:
 # 	requestor_main_method_name = "invalidate_cache_line_entry"
-# 	converted_class = invalidator	
+# 	converted_class = invalidator
 # 	output_file_name = "invalidator.c"
 
 
@@ -87,29 +87,29 @@ import multiprocessing
 # 		else:
 # 			for word in split_actual_line_of_code:
 # 				final_statement += def_get_function_name_if_exists(word) + " "
-		
+
 
 # 		return tab_counter * "\t" + final_statement, tab_counter, in_if_statement
 
-		
-# 	else: 
+
+# 	else:
 # 		#there is just spaces (no actual code), so return the line immediately
 # 		return line
 
 def get_function_source_code(method):
-	lines = inspect.getsourcelines(method)[0]
-	source_code = []
-	# collect_code = False
-	# counter = 0
-	for line in lines:
-	# 	if line.startswith('\t\t\'\'\''):
-	# 		counter += 1
-	# 	if collect_code == True:
-		test = ' '.join(line.split())
-		source_code.append(test)
-	# 	if counter == 2:
-	# 		collect_code = True
-	return source_code
+    lines = inspect.getsourcelines(method)[0]
+    source_code = []
+    # collect_code = False
+    # counter = 0
+    for line in lines:
+        # 	if line.startswith('\t\t\'\'\''):
+        # 		counter += 1
+        # 	if collect_code == True:
+        test = ' '.join(line.split())
+        source_code.append(test)
+    # 	if counter == 2:
+    # 		collect_code = True
+    return source_code
 
 
 # def write_function_definition_and_docstring(method, f, c_src_lines = None):
@@ -124,14 +124,14 @@ def get_function_source_code(method):
 # 				parameter_string += ", " #add next parameter to function definition
 # 			arg_type = arg_types[arg].__name__
 # 			if arg_type == "str":
-# 				arg_type = "char*" 
+# 				arg_type = "char*"
 # 			parameter_string += str(arg_type) + " " + arg
 
 # 	return_type = arg_types["return"].__name__
 # 	if return_type == "str":
 # 		return_type = "char*"
 
-# 	doc_string = inspect.getdoc(method) # get's full documentation associated with the string 
+# 	doc_string = inspect.getdoc(method) # get's full documentation associated with the string
 
 # 	f.write(return_type + " " + method_name + "(" + parameter_string + ")" + "{" + "\n")
 # 	f.write("/* " + textwrap.indent(doc_string, '\t') + " */" + 2*"\n")
@@ -165,14 +165,12 @@ def get_function_source_code(method):
 # a1 = controller(interconnect_object, requestor_msi, invalidator_msi, directory, requestor_arch1, invalidator_arch1,shared_state, shared_state, name="a1")
 
 # requestor_obj = a1.requestor
-# invalidator_obj = a1.invalidator 
+# invalidator_obj = a1.invalidator
 
 # for message in requestor_obj.valid_messages:
 # 	for state in requestor_obj.valid_states:
 
 # 		source_code = get_function_source_code(method)
-
-
 
 
 # x = requestor_msi(None, None, None, None, None)
@@ -182,8 +180,8 @@ print(a1.requestor.match_action_table)
 
 
 # with open(output_file_name, "a") as f:
-	# print()
-	# print(inspect.getmembers(converted_class, inspect.ismethod))
+# print()
+# print(inspect.getmembers(converted_class, inspect.ismethod))
 # for name, method in inspect.getmembers(converted_class, predicate=inspect.isfunction):
 #     if callable(method):
 #         method_name = method.__name__
@@ -195,29 +193,29 @@ print(a1.requestor.match_action_table)
 #         			print(line)
 #         	continue
 
-        	# print("NOT HERE", method_name)
-        # 	write_function_definition_and_docstring(method, f)
-        # 	function_names.append(method_name)
+# print("NOT HERE", method_name)
+# 	write_function_definition_and_docstring(method, f)
+# 	function_names.append(method_name)
 
-	# for name, method in converted_class.__dict__.items():    
-	# 	if callable(method):   
-	# 		method_name = method.__name__
-	# 		if method_name == requestor_main_method_name:
-	# 			source_code = get_function_source_code(method)
+# for name, method in converted_class.__dict__.items():
+# 	if callable(method):
+# 		method_name = method.__name__
+# 		if method_name == requestor_main_method_name:
+# 			source_code = get_function_source_code(method)
 
-	# 			c_src_lines = ""
-	# 			if_statement = False
-	# 			if_tab_count = -1
-	# 			for line in source_code:
-	# 				line, tab_count, in_if_statement = parser(line, function_names)
-	# 				if if_statement == True and tab_count <= if_tab_count:
-	# 					c_src_lines += if_tab_count * "\t" + "}\n"
-	# 					if_statement = False
+# 			c_src_lines = ""
+# 			if_statement = False
+# 			if_tab_count = -1
+# 			for line in source_code:
+# 				line, tab_count, in_if_statement = parser(line, function_names)
+# 				if if_statement == True and tab_count <= if_tab_count:
+# 					c_src_lines += if_tab_count * "\t" + "}\n"
+# 					if_statement = False
 
-	# 				if in_if_statement == True:
-	# 					if_statement = True
-	# 					if_tab_count = tab_count
-	# 				c_src_lines += line
+# 				if in_if_statement == True:
+# 					if_statement = True
+# 					if_tab_count = tab_count
+# 				c_src_lines += line
 
-	# 			write_function_definition_and_docstring(method, f, c_src_lines)
-	# 			break
+# 			write_function_definition_and_docstring(method, f, c_src_lines)
+# 			break

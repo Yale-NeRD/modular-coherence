@@ -2,7 +2,7 @@ from invalidator.invalidator_msi import invalidator_msi
 from requestor.requestor_msi import requestor_msi
 from directory.directory_msi import directory_msi
 
-#==========================================================================
+# ==========================================================================
 # EXAMPLE 1
 '''
 	      A			(requestor, invalid) --> request: read
@@ -27,7 +27,7 @@ from directory.directory_msi import directory_msi
 # Z.cache_state[0] = "shared"
 # A.get_cache_line_entry(0, "read")
 
-#==========================================================================
+# ==========================================================================
 # EXAMPLE 2
 '''
 	      A			(requestor, invalid) --> request: write
@@ -43,13 +43,13 @@ D = directory()
 A = requestor(directory=D)
 
 
-D.global_cache_state[0] = {"data":0, "mode": "modified", "sharers": [B]}
+D.global_cache_state[0] = {"data": 0, "mode": "modified", "sharers": [B]}
 A.cache_state[0] = "invalid"
 B.cache_state[0] = "modified"
 A.get_cache_line_entry(0, "write")
 
 
-#==========================================================================
+# ==========================================================================
 # EXAMPLE 3
 '''
 	      A			(requestor, invalid) --> request: read
@@ -70,7 +70,7 @@ A.get_cache_line_entry(0, "write")
 # B.cache_state[0] = "modified"
 # A.get_cache_line_entry(0, "read")
 
-#==========================================================================
+# ==========================================================================
 # EXAMPLE 4
 '''
 	      A			(requestor, modified) --> request: read
@@ -93,5 +93,3 @@ A.get_cache_line_entry(0, "write")
 # A.cache_state[0] = "modified"
 # # B.cache_state[0] = "modified"
 # A.get_cache_line_entry(0, "read")
-
-
