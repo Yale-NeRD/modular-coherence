@@ -30,7 +30,7 @@ As seen in the diagram below, there are many crucial entities that are created i
 - kernel files for requestor, invalidator, and directory: output code from shim layer which is in the language of choice of architecture (developer choice)
 
 <p align = "center">
-<img src = "images/moon_overview.png" width="60%" height="30%">
+<img src = "images/class_diagram.png" width="60%" height="30%">
 </p>
 <p align = "center">
 Figure 1: Diagram of MOON API
@@ -39,4 +39,9 @@ Figure 1: Diagram of MOON API
 The cache coherence developer only needs to change the match action table inside of the protocol-specific code that is written. The shim layer then generates the kernel code from the match action table and the developers simply need to plug this into the architecture modules for the requestor, invalidator, and directory 
 
 ## Usage
-
+1. Add new subfolder to /protocol folder for your newly created protocol, xxx at the location ```/protocol/xxx```
+2. Make a cache state defintion file at ```/protocol/xxx/cache_state_xxx.py```. This defines the states that are used in the protocol (variable to integer defintion). See ```/protocol/msi/cache_state_msi.py`` as an example
+3. Create the ```requestor_xxx.py```, ```requestor_xxx.py```, and ```directory_xxx.py``` files inside of ```/protocol/xxx```, copying and pasting the match action table format from ```requestor_msi.py```, ```requestor_.py```, and ```directory_msi.py``` files
+4. Update the match action tables of ```requestor_xxx.py```, ```requestor_xxx.py```, and ```directory_xxx.py``` in the ```/protocol/xxx``` subfolder, using functions that exist in ```framework/requestor/requestor_arch.py```, ```framework/directory/directory_arch.py```, ```framework/invalidator/invalidator_arch.py```, and ```framework/interconnect/interconnect.py``, which are the sets of valid 
+5. Create tests in ```/protocol/xxx/tests_xxx.py```. You can use the ```framework/test/test_environment.py``` file to help create tests environments of controllers to check the validity of state transitions in the protocol developed. See ```/protocol/msi/tests_msi.py``` as an example
+6. Run shim layer to generate kernel code using ```/generator/python_to_c.py```
