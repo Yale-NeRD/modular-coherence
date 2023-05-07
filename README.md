@@ -10,9 +10,18 @@ MOON is a new API that provides functionally complete primitives for cache coher
 - Provide a complete and correct primitive set of functions that can implement any cache coherence protocol
 - Allow any cache coherence protocol to be implemented on an arbitrary architecture with simplicity. Given k cache coherence protocols and m architectures, a developer could implement km different architectures with different cache coherence protocols in O(k + m) time 
 
+## Important Note for Datacenter Architecture Design 
+
+Within MOON, the abstraction provided for cache coherence is split into three parts: 
+- requestor
+- invalidator
+- directory
+
+The requestor and invalidator are co-located in the compute blades of a datacenter, and are responsible for requesting and invalidating memory blocks for the blade’s cache (and application requests) respectively. On the other hand, the directory entity is responsible for global state management and responding to memory requests by applications/CPU's. The major benefit of this modular approach is that it decouples the separate functionalities within the compute blade from one another - the request functionality is implemented in a different module than invalidation functions. It is up to the architecture developer to fit these three "entities" into their code, but it is required that there are three separate modules for each of the entities. 
+
 ## Design Overview 
 As seen in the diagram below, there are many crucial entities that are created in MOON:
-- interconnect: a module to deliver messages between entities; provided by the archi- tecture developer
+- interconnect: a module to deliver messages between entities; provided by the architecture developer
 - requestor, invalidator, and directory arch(itecture) files: definitions of functions that must be implemented in kernel code by architecture developer
 - protocol specific files for requestor, invalidator, and directory: implementation of cache coherence protocol (i.e. MSI, MOESI, etc.) for each entity using functions defined in arch files
 - requestor, invalidator, and directory class files: initializes match action table and inherits run entity
@@ -26,6 +35,8 @@ As seen in the diagram below, there are many crucial entities that are created i
 <p align = "center">
 Figure 1: Diagram of MOON API
 </p>
+
+The cache coherence developer only needs to change the match action table inside of the protocol-specific code that is written. The shim layer then generates the kernel code from the match action table and the developers simply need to plug this into the architecture modules for the requestor, invalidator, and directory 
 
 ## Usage
 
