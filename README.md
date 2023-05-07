@@ -30,7 +30,7 @@ As seen in the diagram below, there are many crucial entities that are created i
 - kernel files for requestor, invalidator, and directory: output code from shim layer which is in the language of choice of architecture (developer choice)
 
 <p align = "center">
-<img src = "images/moon_overview.png" width="60%" height="30%">
+<img src = "images/class_diagram.png" width="60%" height="30%">
 </p>
 <p align = "center">
 Figure 1: Diagram of MOON API
